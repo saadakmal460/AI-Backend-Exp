@@ -28,10 +28,13 @@ const signin = async (req, res, next) => {
     // Prepare the user data without password
     const { password: pass, ...rest } = validUser._doc;
 
-    // Set cookie
+    // Check if the request is over HTTPS (secure environment)
+    const isSecure = req.protocol === 'https'; // Check if it's an HTTPS request
+
+    // Set cookie with secure flag conditionally
     res.cookie('access_token', token, {
       httpOnly: true, // Prevent access to cookie from JavaScript
-      secure: process.env.NODE_ENV === 'production', // Ensure secure cookies in production
+      secure: isSecure, // Only set secure flag on HTTPS
       sameSite: 'strict', // 'lax' or 'strict' based on your requirements
       maxAge: 3600000, // Optional: set cookie expiration time (1 hour)
     });
@@ -43,6 +46,7 @@ const signin = async (req, res, next) => {
     next(error);
   }
 };
+
 
 
 
