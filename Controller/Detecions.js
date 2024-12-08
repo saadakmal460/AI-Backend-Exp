@@ -1,4 +1,4 @@
-const IllegalParking = require('../models/IllegalParking');
+const IllegalParking = require('../Models/Detection');
 
 // Add an illegal parking detection
 const addDetection = async (req, res) => {

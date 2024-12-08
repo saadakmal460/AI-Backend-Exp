@@ -3,9 +3,9 @@ const bcryptjs = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const signup = async (req, res, next) => {
-  const { username, email, password } = req.body;
+  const { username, email, password , role } = req.body;
   const hashedPassword = bcryptjs.hashSync(password, 10);
-  const newUser = new User({ username, email, password: hashedPassword });
+  const newUser = new User({ username, email, password: hashedPassword , role });
   try {
     await newUser.save();
     res.status(201).json('User created successfully!');
@@ -48,9 +48,80 @@ const signin = async (req, res, next) => {
 };
 
 
+const GetAllUsers = async (req, res, next) => {
+  try {
+    // Assuming you have a Users model
+    const users = await User.find(); // Fetch all users
+    res.status(200).json({
+      success: true,
+      data: users,
+    });
+  } catch (error) {
+    // Error handling
+    res.status(500).json({
+      success: false,
+      message: "Failed to fetch users",
+      error: error.message,
+    });
+  }
+};
+
+const DeleteUserById = async (req, res, next) => {
+  try {
+    const { id } = req.query; // Get user ID from request parameters
+    const deletedUser = await User.findByIdAndDelete(id); // Find and delete user by ID
+
+    if (!deletedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      message: "User deleted successfully",
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to delete user",
+      error: error.message,
+    });
+  }
+};
+
+const EditUserById = async (req, res, next) => {
+  try {
+    const { id } = req.query; // Get user ID from request parameters
+    const updates = req.body; // Get updated data from request body
+
+    const updatedUser = await User.findByIdAndUpdate(id, updates, {
+      new: true, // Return the updated document
+    });
+
+    if (!updatedUser) {
+      return res.status(404).json({
+        success: false,
+        message: "User not found",
+      });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to edit user",
+      error: error.message,
+    });
+  }
+};
 
 
 
 module.exports = {
-    signup,signin
+    signup,signin,GetAllUsers,DeleteUserById,EditUserById
 }
