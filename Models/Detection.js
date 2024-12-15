@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const UserModel = require('../Models/UserModel')
 const DetectionSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -15,8 +16,13 @@ const DetectionSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ['Sent', 'Pending', 'Resolved' , 'Confirm' , 'Unconfirmed'], // Define allowed status values
+    enum: ['Pending', 'Resolved' , 'Confirm' , 'Unconfirmed'], // Define allowed status values
     default: 'Unconfirmed',
+  },
+  resolvedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'UserModel',
+    default: null
   },
   createdAt: {
     type: Date,

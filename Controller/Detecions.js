@@ -172,12 +172,16 @@ const deleteDetection = async (req, res) => {
 
 const getAllDetections = async (req, res) => {
   try {
-    const detections = await IllegalParking.find();  // Assuming `IllegalParking` is the model
+    const detections = await IllegalParking.find()
+      .populate('resolvedBy', 'username')  // Populate only the 'name' field from the User model
+      .exec();  // Execute the query
+
     res.status(200).json(detections);  // Send the detections as JSON response
   } catch (err) {
     res.status(500).json({ message: 'Error fetching detections', error: err.message });
   }
 };
+
 
 
 module.exports = { addDetection, confirmDetection, getPendingDetections, resolveDetection, markAsSent, markAsUnconfirmed,getAllDetections,deleteDetection };
