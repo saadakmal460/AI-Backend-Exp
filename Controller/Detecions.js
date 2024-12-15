@@ -77,11 +77,12 @@ const getPendingDetections = async (req, res) => {
 const resolveDetection = async (req, res) => {
   try {
     const { id } = req.params;
+    const {user_id} = req.body
 
     // Find detection by ID and update status to 'Resolved'
     const resolvedDetection = await IllegalParking.findByIdAndUpdate(
       id,
-      { status: 'Resolved' },
+      { status: 'Resolved' , resolvedBy:user_id },
       { new: true }
     );
 
