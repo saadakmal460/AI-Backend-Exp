@@ -150,6 +150,25 @@ const markAsUnconfirmed = async (req, res) => {
 };
 
 
+const deleteDetection = async (req, res) => {
+  const { id } = req.params; // Get the ID from the request parameters
+
+  try {
+    // Assuming you're using MongoDB with Mongoose
+    const detection = await IllegalParking.findById(id); // Find the detection by ID
+
+    if (!detection) {
+      return res.status(404).json({ message: 'Detection not found' });
+    }
+
+    await detection.remove(); // Delete the detection
+
+    res.status(200).json({ message: 'Detection deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting detection:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
 
 
 const getAllDetections = async (req, res) => {
@@ -162,4 +181,4 @@ const getAllDetections = async (req, res) => {
 };
 
 
-module.exports = { addDetection, confirmDetection, getPendingDetections, resolveDetection, markAsSent, markAsUnconfirmed,getAllDetections };
+module.exports = { addDetection, confirmDetection, getPendingDetections, resolveDetection, markAsSent, markAsUnconfirmed,getAllDetections,deleteDetection };
