@@ -60,7 +60,7 @@ const confirmDetection = async (req, res) => {
 //Get Pending Detections API
 const getPendingDetections = async (req, res) => {
   try {
-    const pendingDetections = await IllegalParking.find({ status: 'Pending' });
+    const pendingDetections = await IllegalParking.find({ status: 'Confirm' });
 
     return res.status(200).json({ 
       message: 'Pending detections fetched successfully.', 
@@ -154,14 +154,12 @@ const deleteDetection = async (req, res) => {
   const { id } = req.params; // Get the ID from the request parameters
 
   try {
-    // Assuming you're using MongoDB with Mongoose
-    const detection = await IllegalParking.findById(id); // Find the detection by ID
+    // Use findByIdAndDelete to find and delete the document
+    const detection = await IllegalParking.findByIdAndDelete(id);
 
     if (!detection) {
       return res.status(404).json({ message: 'Detection not found' });
     }
-
-    await detection.remove(); // Delete the detection
 
     res.status(200).json({ message: 'Detection deleted successfully' });
   } catch (error) {
@@ -169,6 +167,7 @@ const deleteDetection = async (req, res) => {
     res.status(500).json({ message: 'Server error' });
   }
 };
+
 
 
 const getAllDetections = async (req, res) => {
