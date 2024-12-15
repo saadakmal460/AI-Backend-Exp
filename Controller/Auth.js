@@ -39,6 +39,8 @@ const signin = async (req, res, next) => {
       maxAge: 3600000, // Optional: set cookie expiration time (1 hour)
     });
 
+    
+    console.log(rest)
     // Send the response separately after cookie has been set
     return res.status(200).json(rest);
 
@@ -95,7 +97,6 @@ const EditUserById = async (req, res, next) => {
   try {
     const { id } = req.query; // Get user ID from request parameters
     const updates = req.body; // Get updated data from request body
-
     const updatedUser = await User.findByIdAndUpdate(id, updates, {
       new: true, // Return the updated document
     });

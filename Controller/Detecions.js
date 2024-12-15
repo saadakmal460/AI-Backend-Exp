@@ -15,7 +15,7 @@ const addDetection = async (req, res) => {
       title,
       location,
       time,
-      status: status || 'Pending', // Default to 'Pending' if no status provided
+      status: status || 'Unconfirmed', // Default to 'Pending' if no status provided
     });
 
     await newDetection.save(); // Save to database
@@ -152,5 +152,14 @@ const markAsUnconfirmed = async (req, res) => {
 
 
 
+const getAllDetections = async (req, res) => {
+  try {
+    const detections = await IllegalParking.find();  // Assuming `IllegalParking` is the model
+    res.status(200).json(detections);  // Send the detections as JSON response
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching detections', error: err.message });
+  }
+};
 
-module.exports = { addDetection, confirmDetection, getPendingDetections, resolveDetection, markAsSent, markAsUnconfirmed };
+
+module.exports = { addDetection, confirmDetection, getPendingDetections, resolveDetection, markAsSent, markAsUnconfirmed,getAllDetections };

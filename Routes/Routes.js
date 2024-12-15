@@ -1,6 +1,6 @@
 const express = require('express');
 const {signin, signup, GetAllUsers, DeleteUserById, EditUserById } = require('../Controller/Auth');
-const {addDetection, confirmDetection, getPendingDetections, resolveDetection, markAsSent, markAsUnconfirmed} = require('../Controller/Detecions')
+const {addDetection, confirmDetection, getPendingDetections, resolveDetection, markAsSent, markAsUnconfirmed, getAllDetections} = require('../Controller/Detecions')
 
 const router = express.Router();
 
@@ -18,5 +18,6 @@ router.get("/pending", getPendingDetections)
 router.put("/resolve/:id", resolveDetection)
 router.put("/sent/:id", markAsSent)
 router.put("/unconfirmed/:id", markAsUnconfirmed)
+router.get('/getAll' , getAllDetections)
 
 module.exports = router

@@ -16,7 +16,7 @@ const DetectionSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ['Sent', 'Pending', 'Resolved' , 'Confirm' , 'Unconfirmed'], // Define allowed status values
-    default: 'Pending',
+    default: 'Unconfirmed',
   },
   createdAt: {
     type: Date,
@@ -25,5 +25,7 @@ const DetectionSchema = new mongoose.Schema({
 });
 
 const Detections = mongoose.model('Detections', DetectionSchema);
+
+
 
 module.exports = Detections;
