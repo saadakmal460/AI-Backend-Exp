@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const UserModel = require('../Models/UserModel')
+const User = require('../Models/UserModel')
 const DetectionSchema = new mongoose.Schema({
   title: {
     type: String,
@@ -21,7 +21,7 @@ const DetectionSchema = new mongoose.Schema({
   },
   resolvedBy: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'UserModel',
+    ref: 'User',
     default: null
   },
   createdAt: {
